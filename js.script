@@ -1,1 +1,255 @@
+/* ============================================================
+   AgroFuturo — script.js
+   Site educativo sobre Sustentabilidade no Agronegócio
+   ============================================================ */
 
+// ===== NAVBAR — MENU RESPONSIVO =====
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// Fecha o menu ao clicar em um link (mobile)
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+// ===== BARRAS ANIMADAS (Seção Desafios) =====
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.barra-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.dados-box').forEach(el => barObserver.observe(el));
+
+
+// ===== QUIZ =====
+const perguntas = [
+  {
+    q: "Qual o percentual aproximado do PIB brasileiro que o agronegócio representa?",
+    opts: ["10%", "27%", "45%", "5%"],
+    correta: 1,
+    exp: "O agronegócio contribui com aproximadamente 27% do PIB brasileiro, sendo um dos pilares mais importantes da economia nacional."
+  },
+  {
+    q: "Qual tecnologia permite monitorar lavouras por satélite e otimizar o uso de insumos?",
+    opts: ["Hidroponia", "Agricultura de precisão", "Pesca artesanal", "Monocultura"],
+    correta: 1,
+    exp: "A agricultura de precisão usa GPS, sensores e dados de satélite para aplicar insumos exatamente onde e quando necessário, reduzindo custos e impactos ambientais."
+  },
+  {
+    q: "Quanto da água doce disponível no planeta é consumida pela agricultura?",
+    opts: ["20%", "40%", "70%", "90%"],
+    correta: 2,
+    exp: "A agricultura responde por cerca de 70% do consumo global de água doce. Por isso, tecnologias de irrigação eficiente são fundamentais para a sustentabilidade."
+  },
+  {
+    q: "O que é agricultura regenerativa?",
+    opts: [
+      "Uso intensivo de agrotóxicos para aumentar produção",
+      "Prática que restaura o solo, captura carbono e recupera biodiversidade",
+      "Produção exclusivamente em laboratório",
+      "Importação de alimentos de outros países"
+    ],
+    correta: 1,
+    exp: "A agricultura regenerativa vai além da sustentabilidade: não apenas mantém os recursos, mas os restaura ativamente. Melhora o solo, aumenta biodiversidade e captura carbono."
+  },
+  {
+    q: "Qual prática ajuda a reduzir a erosão do solo e preservar sua umidade?",
+    opts: ["Queimadas", "Plantio direto", "Aração profunda frequente", "Deixar o solo exposto"],
+    correta: 1,
+    exp: "O plantio direto mantém a cobertura do solo, reduz erosão em até 90%, conserva umidade e aumenta a matéria orgânica — melhorando produtividade e sustentabilidade."
+  },
+  {
+    q: "O que os drones agrícolas podem fazer?",
+    opts: [
+      "Apenas tirar fotos das fazendas",
+      "Monitorar pragas, pulverizar com precisão e mapear lavouras",
+      "Colher grãos automaticamente",
+      "Substituir completamente os trabalhadores rurais"
+    ],
+    correta: 1,
+    exp: "Drones agrícolas realizam monitoramento aéreo, identificam pragas e doenças precocemente, fazem pulverizações precisas e criam mapas detalhados das lavouras."
+  }
+];
+
+let quizAtual = 0;
+let quizPontos = 0;
+let quizRespondido = false;
+
+function renderQuiz() {
+  const prog = document.getElementById('quizProgress');
+  const cont = document.getElementById('quizContent');
+
+  // Renderiza barra de progresso
+  prog.innerHTML = perguntas.map((_, i) => {
+    let cls = 'quiz-dot';
+    if (i < quizAtual)      cls += ' done';
+    else if (i === quizAtual) cls += ' active';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+
+  // Tela de resultado final
+  if (quizAtual >= perguntas.length) {
+    const pct = Math.round((quizPontos / perguntas.length) * 100);
+    const msg = pct >= 80 ? '🌟 Excelente! Você é um especialista em sustentabilidade!' :
+                pct >= 60 ? '👍 Bom trabalho! Você tem bom conhecimento sobre o tema.' :
+                pct >= 40 ? '📚 Continue estudando! Você está no caminho certo.' :
+                            '🌱 Hora de revisitar o conteúdo do site!';
+    cont.innerHTML = `
+      <div class="quiz-result">
+        <div class="big-score">${quizPontos}/${perguntas.length}</div>
+        <p>${pct}% de aproveitamento</p>
+        <p style="color:#4a6a4a;margin-bottom:1.5rem">${msg}</p>
+        <button class="btn-primary" onclick="reiniciarQuiz()">Refazer Quiz →</button>
+      </div>`;
+    return;
+  }
+
+  // Renderiza pergunta atual
+  const p = perguntas[quizAtual];
+  quizRespondido = false;
+  cont.innerHTML = `
+    <div class="quiz-score">Pergunta ${quizAtual + 1} de ${perguntas.length} · ${quizPontos} ponto(s)</div>
+    <div class="quiz-q" style="margin-top:1rem">${p.q}</div>
+    <div class="quiz-options">
+      ${p.opts.map((o, i) => `<button class="quiz-opt" onclick="responder(${i})">${o}</button>`).join('')}
+    </div>
+    <div id="qFeedback"></div>
+    <div class="quiz-nav">
+      <span></span>
+      <button class="btn-primary" id="btnProx" style="display:none" onclick="proximaQ()">
+        ${quizAtual < perguntas.length - 1 ? 'Próxima →' : 'Ver Resultado →'}
+      </button>
+    </div>`;
+}
+
+function responder(idx) {
+  if (quizRespondido) return;
+  quizRespondido = true;
+
+  const p    = perguntas[quizAtual];
+  const opts = document.querySelectorAll('.quiz-opt');
+  const feed = document.getElementById('qFeedback');
+  const btn  = document.getElementById('btnProx');
+
+  opts.forEach(o => o.disabled = true);
+
+  if (idx === p.correta) {
+    opts[idx].classList.add('correct');
+    quizPontos++;
+    feed.innerHTML = `<div class="quiz-feedback correct">✅ Correto! ${p.exp}</div>`;
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[p.correta].classList.add('correct');
+    feed.innerHTML = `<div class="quiz-feedback wrong">❌ Incorreto. ${p.exp}</div>`;
+  }
+  btn.style.display = 'inline-block';
+}
+
+function proximaQ()    { quizAtual++; renderQuiz(); }
+function reiniciarQuiz() { quizAtual = 0; quizPontos = 0; renderQuiz(); }
+
+// Inicializa o quiz ao carregar a página
+renderQuiz();
+
+
+// ===== CALCULADORA DE IMPACTO AMBIENTAL =====
+const culturas = {
+  soja:  { agua: 1500, co2: 0.8 },
+  milho: { agua: 900,  co2: 0.6 },
+  cana:  { agua: 1800, co2: 0.4 },
+  gado:  { agua: 3000, co2: 4.2 },
+  cafe:  { agua: 1200, co2: 0.7 },
+};
+
+function calcular() {
+  const area   = parseFloat(document.getElementById('c-area').value)   || 100;
+  const cult   = culturas[document.getElementById('c-cultura').value];
+  const irrig  = document.getElementById('c-irrig').value   === 'sim';
+  const energia= document.getElementById('c-energia').value === 'sim';
+  const nativa = parseFloat(document.getElementById('c-nativa').value) || 20;
+
+  // Cálculos de impacto
+  let agua = area * cult.agua * (irrig ? 0.5 : 1);
+  let co2  = area * cult.co2  * (energia ? 0.7 : 1);
+  const areaUtil = area * (1 - nativa / 100);
+  agua = (areaUtil / area) * agua;
+
+  // Índice de sustentabilidade (0–100)
+  let sustent = 50;
+  if (irrig)        sustent += 15;
+  if (energia)      sustent += 15;
+  if (nativa >= 20) sustent += 10;
+  if (nativa >= 50) sustent += 10;
+  sustent = Math.min(100, sustent);
+
+  // Exibe valores
+  document.getElementById('r-agua').innerHTML    = `${(agua / 1000).toFixed(1)}<span class="r-unit">mil m³/ano</span>`;
+  document.getElementById('r-co2').innerHTML     = `${co2.toFixed(0)}<span class="r-unit">ton CO₂/ano</span>`;
+  document.getElementById('r-sustent').innerHTML = `${sustent}<span class="r-unit">/100</span>`;
+
+  // Barras de impacto
+  const aPct = Math.min(100, agua / (area * 30));
+  const cPct = Math.min(100, co2  / (area * 5));
+
+  const barAgua = document.getElementById('bar-agua');
+  barAgua.style.width = aPct + '%';
+  barAgua.className   = 'impact-fill ' + (aPct > 70 ? 'high' : aPct > 40 ? 'medium' : 'low');
+
+  const barCo2 = document.getElementById('bar-co2');
+  barCo2.style.width = cPct + '%';
+  barCo2.className   = 'impact-fill ' + (cPct > 70 ? 'high' : cPct > 40 ? 'medium' : 'low');
+
+  document.getElementById('bar-sustent').style.width = sustent + '%';
+
+  // Dica personalizada
+  const dicas = [];
+  if (!irrig)       dicas.push('💧 Adotar irrigação inteligente pode reduzir o consumo de água em 50%.');
+  if (!energia)     dicas.push('☀️ Instalar energia solar reduz emissões e custos operacionais.');
+  if (nativa < 20)  dicas.push('🌳 Manter ao menos 20% de área nativa é exigido pelo Código Florestal.');
+
+  document.getElementById('r-dica').textContent = dicas.length
+    ? dicas[0]
+    : '✅ Ótimas práticas! Esta propriedade tem bom índice de sustentabilidade.';
+}
+
+// Roda o cálculo inicial ao carregar
+calcular();
+
+
+// ===== FORMULÁRIO DE CONTATO =====
+function enviarFormulario() {
+  const nome  = document.getElementById('f-nome').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const msg   = document.getElementById('f-msg').value.trim();
+
+  if (!nome || !email || !msg) {
+    alert('Por favor, preencha todos os campos.');
+    return;
+  }
+
+  // Esconde todos os campos e exibe mensagem de sucesso
+  document.getElementById('formBox')
+    .querySelectorAll('input, select, textarea, button')
+    .forEach(el => el.style.display = 'none');
+
+  document.getElementById('formSuccess').style.display = 'block';
+}
