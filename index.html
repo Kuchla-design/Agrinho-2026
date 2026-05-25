@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroFuturo – Sustentabilidade no Agronegócio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-escuro: #1a3a1f;
+    --verde-medio: #2d6a2d;
+    --verde-claro: #5a9e3a;
+    --verde-brilho: #7ec94a;
+    --terra: #8b5e3c;
+    --palha: #d4a855;
+    --creme: #f5f0e8;
+    --branco: #fafaf7;
+    --texto: #1c2e1c;
+    --cinza-claro: #eaeee6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--branco);
+    color: var(--texto);
+    overflow-x: hidden;
+  }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(26,58,31,0.97);
+    backdrop-filter: blur(10px);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+    border-bottom: 1px solid rgba(126,201,74,0.2);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 900;
+    color: var(--verde-brilho);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--palha); }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none; font-size: 0.88rem; font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--verde-brilho);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--verde-brilho); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .nav-toggle span { width: 24px; height: 2px; background: white; transition: 0.3s; }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    background: var(--verde-escuro);
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 80px 5% 0;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 70% 50%, rgba(90,158,58,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(212,168,85,0.1) 0%, transparent 50%),
+      linear-gradient(160deg, #0f2312 0%, #1a3a1f 40%, #0e1f0f 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0; opacity: 0.04;
+    background-image: linear-gradient(var(--verde-brilho) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--verde-brilho) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 680px; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(126,201,74,0.15);
+    border: 1px solid rgba(126,201,74,0.4);
+    color: var(--verde-brilho);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+    font-weight: 900; line-height: 1.1;
+    color: white; margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease 0.15s both;
+  }
+  .hero-title .highlight { color: var(--verde-brilho); }
+  .hero-title .earth { color: var(--palha); }
+  .hero-sub {
+    font-size: 1.05rem; line-height: 1.7;
+    color: rgba(255,255,255,0.7);
+    max-width: 520px; margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.8s ease 0.45s both;
+  }
+  .btn-primary {
+    background: var(--verde-brilho);
+    color: var(--verde-escuro);
+    padding: 14px 28px; border-radius: 8px;
+    font-weight: 700; font-size: 0.95rem;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.2s; display: inline-block;
+  }
+  .btn-primary:hover { background: #90da57; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(126,201,74,0.4); }
+  .btn-outline {
+    background: transparent;
+    color: white; border: 1px solid rgba(255,255,255,0.3);
+    padding: 14px 28px; border-radius: 8px;
+    font-weight: 500; font-size: 0.95rem;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.2s; display: inline-block;
+  }
+  .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.06); }
+  .hero-stats {
+    position: absolute; right: 5%; bottom: 10%;
+    display: flex; flex-direction: column; gap: 1rem;
+    z-index: 1;
+    animation: fadeLeft 1s ease 0.6s both;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(126,201,74,0.2);
+    border-radius: 12px; padding: 20px 28px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 900;
+    color: var(--verde-brilho); display: block;
+  }
+  .stat-label { color: rgba(255,255,255,0.6); font-size: 0.78rem; letter-spacing: 0.5px; }
+  .scroll-indicator {
+    position: absolute; bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.4); font-size: 0.72rem; letter-spacing: 1px;
+    animation: bounce 2s infinite;
+  }
+  .scroll-line { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
+
+  /* ===== SECTIONS BASE ===== */
+  section { padding: 100px 5%; }
+  .section-tag {
+    display: inline-block;
+    color: var(--verde-claro); font-size: 0.75rem;
+    font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 3.5vw, 3rem);
+    font-weight: 800; line-height: 1.2;
+    color: var(--verde-escuro); margin-bottom: 1.2rem;
+  }
+  .section-sub {
+    font-size: 1rem; line-height: 1.8;
+    color: #4a6a4a; max-width: 600px;
+  }
+
+  /* ===== PRODUCAO ===== */
+  #producao { background: var(--creme); }
+  .producao-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center; margin-top: 4rem;
+  }
+  .info-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .info-card {
+    background: white;
+    border-radius: 12px; padding: 20px 24px;
+    border-left: 4px solid var(--verde-claro);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .info-card:hover { transform: translateX(6px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+  .info-card h4 {
+    font-weight: 700; color: var(--verde-escuro);
+    margin-bottom: 0.4rem; font-size: 1rem;
+  }
+  .info-card p { color: #5a7a5a; font-size: 0.9rem; line-height: 1.6; }
+  .tech-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .tech-item {
+    background: var(--verde-escuro);
+    border-radius: 12px; padding: 20px;
+    color: white; text-align: center;
+    cursor: pointer; transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .tech-item::before {
+    content: ''; position: absolute;
+    inset: 0; background: var(--verde-claro);
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .tech-item:hover::before { opacity: 0.15; }
+  .tech-item:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,58,31,0.3); }
+  .tech-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+  .tech-item h5 { font-size: 0.85rem; font-weight: 600; color: var(--verde-brilho); }
+  .tech-item p { font-size: 0.78rem; color: rgba(255,255,255,0.7); margin-top: 0.3rem; }
+
+  /* ===== SUSTENTABILIDADE ===== */
+  #sustentabilidade { background: var(--verde-escuro); color: white; }
+  #sustentabilidade .section-title { color: white; }
+  #sustentabilidade .section-sub { color: rgba(255,255,255,0.65); }
+  .sust-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 4rem;
+  }
+  .sust-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(126,201,74,0.2);
+    border-radius: 16px; padding: 32px 24px;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .sust-card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--verde-brilho), var(--palha));
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  .sust-card:hover { background: rgba(255,255,255,0.09); transform: translateY(-6px); }
+  .sust-card:hover::after { transform: scaleX(1); }
+  .sust-card .icon { font-size: 2.4rem; margin-bottom: 1rem; display: block; }
+  .sust-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--verde-brilho); margin-bottom: 0.8rem; }
+  .sust-card p { font-size: 0.88rem; line-height: 1.7; color: rgba(255,255,255,0.7); }
+  .sust-card ul { margin-top: 0.8rem; padding-left: 1rem; }
+  .sust-card ul li { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 0.4rem; }
+
+  /* ===== DESAFIOS ===== */
+  #desafios { background: #f8f4ef; }
+  .desafios-layout {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 4rem; margin-top: 4rem; align-items: start;
+  }
+  .challenge-list { display: flex; flex-direction: column; gap: 1.2rem; }
+  .challenge-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    background: white; border-radius: 12px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    transition: box-shadow 0.2s;
+  }
+  .challenge-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .challenge-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .challenge-icon.red { background: #fee2e2; }
+  .challenge-icon.orange { background: #ffedd5; }
+  .challenge-icon.blue { background: #dbeafe; }
+  .challenge-item h4 { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; color: var(--verde-escuro); }
+  .challenge-item p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+  .dados-box {
+    background: var(--verde-escuro); border-radius: 20px;
+    padding: 36px; color: white;
+  }
+  .dados-box h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 2rem; color: var(--palha); }
+  .dado-barra { margin-bottom: 1.5rem; }
+  .dado-barra-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.82rem; margin-bottom: 6px;
+    color: rgba(255,255,255,0.8);
+  }
+  .barra-track {
+    height: 8px; background: rgba(255,255,255,0.1);
+    border-radius: 4px; overflow: hidden;
+  }
+  .barra-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, var(--verde-brilho), var(--palha));
+    transition: width 1.5s ease;
+    width: 0;
+  }
+
+  /* ===== SOLUCOES ===== */
+  #solucoes { background: white; }
+  .solucoes-intro { max-width: 700px; margin: 0 auto 4rem; text-align: center; }
+  .solucoes-intro .section-title { color: var(--verde-escuro); }
+  .inovacoes-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem; margin-bottom: 4rem;
+  }
+  .inovacao-card {
+    text-align: center; padding: 28px 20px;
+    border-radius: 16px; border: 1px solid var(--cinza-claro);
+    transition: all 0.3s; cursor: default;
+    background: var(--branco);
+  }
+  .inovacao-card:hover {
+    border-color: var(--verde-claro);
+    box-shadow: 0 8px 32px rgba(90,158,58,0.12);
+    transform: translateY(-6px);
+  }
+  .inovacao-card .ico { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .inovacao-card h4 { font-weight: 700; font-size: 0.9rem; color: var(--verde-escuro); margin-bottom: 0.5rem; }
+  .inovacao-card p { font-size: 0.8rem; color: #6a8a6a; line-height: 1.6; }
+  .quote-box {
+    background: linear-gradient(135deg, var(--verde-escuro), #2d5a2d);
+    border-radius: 20px; padding: 48px;
+    text-align: center; color: white;
+    position: relative; overflow: hidden;
+  }
+  .quote-box::before {
+    content: '"'; position: absolute; top: -20px; left: 30px;
+    font-family: 'Playfair Display', serif; font-size: 12rem;
+    color: rgba(126,201,74,0.08); line-height: 1; pointer-events: none;
+  }
+  .quote-box blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    font-style: italic; line-height: 1.5;
+    color: var(--creme); position: relative; z-index: 1; max-width: 800px; margin: 0 auto;
+  }
+  .quote-box cite { display: block; margin-top: 1rem; font-size: 0.82rem; color: var(--verde-brilho); font-style: normal; }
+
+  /* ===== QUIZ ===== */
+  #quiz { background: var(--creme); }
+  .quiz-container {
+    max-width: 700px; margin: 4rem auto 0;
+    background: white; border-radius: 20px;
+    padding: 40px; box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+  }
+  .quiz-progress {
+    display: flex; gap: 6px; margin-bottom: 2rem;
+  }
+  .quiz-dot {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: var(--cinza-claro); transition: background 0.3s;
+  }
+  .quiz-dot.active { background: var(--verde-claro); }
+  .quiz-dot.done { background: var(--verde-brilho); }
+  .quiz-q { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--verde-escuro); margin-bottom: 1.5rem; line-height: 1.4; }
+  .quiz-options { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .quiz-opt {
+    padding: 14px 18px; border-radius: 10px;
+    border: 2px solid var(--cinza-claro);
+    background: white; cursor: pointer; font-size: 0.9rem;
+    text-align: left; transition: all 0.2s; color: var(--texto);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .quiz-opt:hover { border-color: var(--verde-claro); background: #f0fae8; }
+  .quiz-opt.correct { border-color: #22c55e; background: #f0fdf4; color: #166534; }
+  .quiz-opt.wrong { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+  .quiz-feedback { font-size: 0.88rem; line-height: 1.6; padding: 12px 16px; border-radius: 8px; margin-bottom: 1rem; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+  .quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; }
+  .quiz-score { font-size: 0.85rem; color: #888; }
+  .quiz-result { text-align: center; padding: 20px 0; }
+  .quiz-result .big-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; font-weight: 900; color: var(--verde-claro);
+  }
+  .quiz-result p { color: #666; margin: 0.5rem 0 1.5rem; }
+
+  /* ===== CALCULADORA ===== */
+  #calculadora { background: var(--verde-escuro); color: white; }
+  #calculadora .section-title { color: white; }
+  #calculadora .section-sub { color: rgba(255,255,255,0.6); }
+  .calc-wrapper {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; margin-top: 4rem;
+  }
+  .calc-form { background: rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; border: 1px solid rgba(126,201,74,0.15); }
+  .calc-form h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--verde-brilho); margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-weight: 500; }
+  .form-group input, .form-group select {
+    width: 100%; padding: 10px 14px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px; color: white; font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus {
+    outline: none; border-color: var(--verde-brilho);
+  }
+  .form-group select option { background: var(--verde-escuro); color: white; }
+  .calc-results { background: rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; border: 1px solid rgba(126,201,74,0.15); display: flex; flex-direction: column; justify-content: center; }
+  .result-titulo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--palha); margin-bottom: 2rem; }
+  .result-item { margin-bottom: 1.5rem; }
+  .result-item .r-label { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+  .result-item .r-value { font-size: 1.4rem; font-weight: 700; color: var(--verde-brilho); }
+  .result-item .r-unit { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-left: 4px; }
+  .impact-bar { height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-top: 8px; overflow: hidden; }
+  .impact-fill { height: 100%; border-radius: 5px; transition: width 0.8s ease; }
+  .impact-fill.low { background: #22c55e; }
+  .impact-fill.medium { background: var(--palha); }
+  .impact-fill.high { background: #ef4444; }
+
+  /* ===== CONTATO ===== */
+  #contato { background: var(--creme); }
+  .contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem; align-items: start; }
+  .contato-info h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--verde-escuro); margin-bottom: 1rem; }
+  .contato-info p { color: #5a7a5a; line-height: 1.8; margin-bottom: 1.5rem; }
+  .contato-badges { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .badge {
+    background: white; border: 1px solid #ddd;
+    border-radius: 50px; padding: 8px 16px;
+    font-size: 0.82rem; color: var(--verde-escuro); font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .form-contato { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+  .form-contato .fg { margin-bottom: 1rem; }
+  .form-contato label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--verde-escuro); margin-bottom: 6px; }
+  .form-contato input, .form-contato textarea, .form-contato select {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid #e0e8e0; border-radius: 8px;
+    font-size: 0.9rem; font-family: 'DM Sans', sans-serif;
+    color: var(--texto); transition: border-color 0.2s;
+    background: var(--branco);
+  }
+  .form-contato input:focus, .form-contato textarea:focus, .form-contato select:focus {
+    outline: none; border-color: var(--verde-claro);
+  }
+  .form-contato textarea { resize: vertical; min-height: 100px; }
+  .form-success { display: none; text-align: center; padding: 20px; color: var(--verde-claro); }
+  .form-success .checkmark { font-size: 3rem; margin-bottom: 0.5rem; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: #0f1f10; color: rgba(255,255,255,0.6);
+    padding: 48px 5% 28px;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
+  .footer-brand .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--verde-brilho); margin-bottom: 0.75rem; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+  .footer-col h4 { color: white; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; letter-spacing: 0.5px; }
+  .footer-col a { display: block; color: rgba(255,255,255,0.5); font-size: 0.82rem; text-decoration: none; margin-bottom: 0.5rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--verde-brilho); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.78rem; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(26,58,31,0.98); padding: 1rem 5%; gap: 1rem; }
+    .nav-toggle { display: flex; }
+    .hero-stats { display: none; }
+    .producao-grid, .desafios-layout, .calc-wrapper, .contato-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .sust-cards, .inovacoes-grid { grid-template-columns: 1fr 1fr; }
+    .tech-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 70px 5%; }
+    .sust-cards, .inovacoes-grid, .tech-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">Agro<span>Futuro</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#producao">Produção</a></li>
+    <li><a href="#sustentabilidade">Sustentabilidade</a></li>
+    <li><a href="#desafios">Desafios</a></li>
+    <li><a href="#solucoes">Soluções</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="#calculadora">Calculadora</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <span class="hero-tag">🌱 Educação Ambiental & Tecnologia</span>
+    <h1 class="hero-title">
+      O campo que<br>
+      <span class="highlight">cresce</span> sem<br>
+      destruir a <span class="earth">terra</span>
+    </h1>
+    <p class="hero-sub">Como o agronegócio pode crescer economicamente sem comprometer os recursos naturais das futuras gerações? Explore tecnologias, práticas e soluções reais.</p>
+    <div class="hero-ctas">
+      <a href="#producao" class="btn-primary">Explorar o site</a>
+      <a href="#quiz" class="btn-outline">Fazer o Quiz →</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card">
+      <span class="stat-num">27%</span>
+      <span class="stat-label">do PIB brasileiro</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">40%</span>
+      <span class="stat-label">das exportações nacionais</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">20M+</span>
+      <span class="stat-label">empregos no setor</span>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>ROLE PARA BAIXO</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- SEÇÃO 1: PRODUÇÃO AGRÍCOLA -->
+<section id="producao">
+  <div class="section-tag">Seção 01</div>
+  <h2 class="section-title">Produção Agrícola Brasileira</h2>
+  <p class="section-sub">O Brasil é um dos maiores produtores de alimentos do mundo, combinando escala, tecnologia e diversidade climática.</p>
+  <div class="producao-grid reveal">
+    <div class="info-cards">
+      <div class="info-card">
+        <h4>🇧🇷 Potência Alimentar Mundial</h4>
+        <p>O Brasil é o maior exportador global de soja, carne bovina, frango, suco de laranja e café, abastecendo mais de 150 países e contribuindo com R$ 2,4 trilhões ao PIB nacional.</p>
+      </div>
+      <div class="info-card">
+        <h4>📈 Crescimento com Eficiência</h4>
+        <p>Nas últimas 3 décadas, a produção agrícola brasileira cresceu 300% sem ampliar proporcionalmente a área plantada — graças à tecnologia e à melhoria genética das culturas.</p>
+      </div>
+      <div class="info-card">
+        <h4>👩‍🌾 Agricultura Familiar</h4>
+        <p>Responsável por 70% dos alimentos na mesa do brasileiro, a agricultura familiar emprega 10 milhões de pessoas e ocupa 24% das terras cultivadas no país.</p>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--verde-escuro);margin-bottom:1.2rem;">Tecnologias que transformam o campo</h3>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <span class="tech-icon">🛰️</span>
+          <h5>Agricultura de Precisão</h5>
+          <p>GPS, sensores e análise de dados para otimizar insumos e aumentar produtividade</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon">💧</span>
+          <h5>Irrigação Inteligente</h5>
+          <p>Sistemas automatizados que reduzem o consumo de água em até 50%</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon">🚁</span>
+          <h5>Drones Agrícolas</h5>
+          <p>Monitoramento aéreo, pulverização precisa e mapeamento de lavouras</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon">☀️</span>
+          <h5>Energia Renovável</h5>
+          <p>Painéis solares e bioenergia reduzem custos e emissões de carbono nas propriedades</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: SUSTENTABILIDADE -->
+<section id="sustentabilidade">
+  <div class="section-tag" style="color:var(--verde-brilho)">Seção 02</div>
+  <h2 class="section-title">Práticas Sustentáveis no Campo</h2>
+  <p class="section-sub">Produzir mais gastando menos recursos naturais: esse é o desafio e a oportunidade do agro moderno.</p>
+  <div class="sust-cards reveal">
+    <div class="sust-card">
+      <span class="icon">🌿</span>
+      <h3>Conservação do Solo</h3>
+      <p>O solo é o patrimônio invisível da agricultura. Técnicas modernas protegem esse recurso vital para as próximas gerações.</p>
+      <ul>
+        <li>Plantio direto</li>
+        <li>Rotação de culturas</li>
+        <li>Cobertura vegetal permanente</li>
+        <li>Adubação orgânica</li>
+      </ul>
+    </div>
+    <div class="sust-card">
+      <span class="icon">⚡</span>
+      <h3>Energias Limpas</h3>
+      <p>O agronegócio é um dos maiores consumidores e ao mesmo tempo produtores de energia renovável do Brasil.</p>
+      <ul>
+        <li>Bioeletricidade da cana-de-açúcar</li>
+        <li>Energia solar fotovoltaica</li>
+        <li>Biogás de resíduos animais</li>
+        <li>Eólica em propriedades rurais</li>
+      </ul>
+    </div>
+    <div class="sust-card">
+      <span class="icon">🐝</span>
+      <h3>Biodiversidade</h3>
+      <p>Preservar a biodiversidade não é apenas ética — é inteligência econômica. Polinizadores, solo vivo e florestas são infraestrutura produtiva.</p>
+      <ul>
+        <li>Corredores ecológicos</li>
+        <li>Reservas legais</li>
+        <li>Controle biológico de pragas</li>
+        <li>Integração lavoura-pecuária-floresta</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: DESAFIOS AMBIENTAIS -->
+<section id="desafios">
+  <div class="section-tag">Seção 03</div>
+  <h2 class="section-title">Desafios Ambientais Urgentes</h2>
+  <p class="section-sub">Compreender os problemas é o primeiro passo para encontrar soluções duradouras.</p>
+  <div class="desafios-layout reveal">
+    <div class="challenge-list">
+      <div class="challenge-item">
+        <div class="challenge-icon red">🌲</div>
+        <div>
+          <h4>Desmatamento</h4>
+          <p>O Brasil perdeu 11.568 km² de floresta amazônica em 2022. O desmatamento degrada o ciclo hídrico, empobrece o solo e acelera as mudanças climáticas.</p>
+        </div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon blue">💧</div>
+        <div>
+          <h4>Uso Excessivo da Água</h4>
+          <p>A agricultura consome 70% da água doce disponível no planeta. A gestão irresponsável esgota aquíferos e ameaça comunidades rurais e urbanas.</p>
+        </div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon orange">🏭</div>
+        <div>
+          <h4>Emissão de Carbono</h4>
+          <p>O setor agropecuário é responsável por cerca de 27% das emissões de gases de efeito estufa no Brasil, principalmente metano do gado e óxido nitroso do solo.</p>
+        </div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon red">🧪</div>
+        <div>
+          <h4>Uso de Agrotóxicos</h4>
+          <p>O Brasil é o maior consumidor mundial de pesticidas. O uso excessivo contamina rios, lençóis freáticos, polinizadores e cadeia alimentar humana.</p>
+        </div>
+      </div>
+    </div>
+    <div class="dados-box">
+      <h3>📊 Impacto em Números</h3>
+      <div class="dado-barra">
+        <div class="dado-barra-label"><span>Área desmatada na Amazônia (2020–2023)</span><span>72%</span></div>
+        <div class="barra-track"><div class="barra-fill" data-width="72"></div></div>
+      </div>
+      <div class="dado-barra">
+        <div class="dado-barra-label"><span>Água usada pela agricultura</span><span>70%</span></div>
+        <div class="barra-track"><div class="barra-fill" data-width="70"></div></div>
+      </div>
+      <div class="dado-barra">
+        <div class="dado-barra-label"><span>Emissões do setor agropecuário</span><span>27%</span></div>
+        <div class="barra-track"><div class="barra-fill" data-width="27"></div></div>
+      </div>
+      <div class="dado-barra">
+        <div class="dado-barra-label"><span>Solos degradados no Brasil</span><span>40%</span></div>
+        <div class="barra-track"><div class="barra-fill" data-width="40"></div></div>
+      </div>
+      <div class="dado-barra">
+        <div class="dado-barra-label"><span>Redução potencial com boas práticas</span><span>60%</span></div>
+        <div class="barra-track"><div class="barra-fill" data-width="60"></div></div>
+      </div>
+      <p style="margin-top:1.5rem;font-size:0.78rem;color:rgba(255,255,255,0.4);">Fontes: INPE, FAO, MAPA, EMBRAPA (dados aproximados para fins educativos)</p>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: SOLUÇÕES -->
+<section id="solucoes">
+  <div class="solucoes-intro reveal">
+    <div class="section-tag">Seção 04</div>
+    <h2 class="section-title">Soluções e o Futuro do Agro</h2>
+    <p class="section-sub" style="margin:0 auto">Inovar com responsabilidade é o caminho para garantir alimentos, empregos e natureza às próximas gerações.</p>
+  </div>
+  <div class="inovacoes-grid reveal">
+    <div class="inovacao-card">
+      <span class="ico">🌾</span>
+      <h4>Agricultura Regenerativa</h4>
+      <p>Restaura a saúde do solo, captura carbono e aumenta a biodiversidade enquanto produz alimentos.</p>
+    </div>
+    <div class="inovacao-card">
+      <span class="ico">🤖</span>
+      <h4>Inteligência Artificial</h4>
+      <p>Algoritmos preveem pragas, otimizam colheitas e reduzem desperdício de insumos em até 30%.</p>
+    </div>
+    <div class="inovacao-card">
+      <span class="ico">🧬</span>
+      <h4>Melhoramento Genético</h4>
+      <p>Culturas mais resistentes à seca e doenças reduzem o uso de água e defensivos agrícolas.</p>
+    </div>
+    <div class="inovacao-card">
+      <span class="ico">🔄</span>
+      <h4>Economia Circular</h4>
+      <p>Resíduos agrícolas viram energia, adubo ou matéria-prima, fechando o ciclo produtivo.</p>
+    </div>
+    <div class="inovacao-card">
+      <span class="ico">🌊</span>
+      <h4>Reuso de Água</h4>
+      <p>Sistemas de captação, tratamento e reuso reduzem a dependência hídrica das propriedades rurais.</p>
+    </div>
+    <div class="inovacao-card">
+      <span class="ico">📡</span>
+      <h4>Monitoramento Satelital</h4>
+      <p>Satélites rastreiam desmatamento, saúde das lavouras e queimadas em tempo real.</p>
+    </div>
+    <div class="inovacao-card">
+      <span class="ico">🌳</span>
+      <h4>Reflorestamento</h4>
+      <p>Restauração de matas ciliares e reservas legais protege nascentes e equilibra o clima regional.</p>
+    </div>
+    <div class="inovacao-card">
+      <span class="ico">📜</span>
+      <h4>Certificação Ambiental</h4>
+      <p>Selos e rastreabilidade valorizam produtos sustentáveis e abrem mercados internacionais premium.</p>
+    </div>
+  </div>
+  <div class="quote-box reveal">
+    <blockquote>"Não herdamos a terra de nossos pais — nós a pedimos emprestada de nossos filhos. O agro do futuro produz mais, polui menos e devolve ao planeta o que tomou."</blockquote>
+    <cite>— Princípio da Agricultura Sustentável</cite>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: QUIZ -->
+<section id="quiz">
+  <div class="section-tag">Seção 05 — Interativo</div>
+  <h2 class="section-title">Quiz: Teste seus Conhecimentos</h2>
+  <p class="section-sub">Quanto você aprendeu sobre sustentabilidade no agronegócio? Descubra agora!</p>
+  <div class="quiz-container reveal">
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div id="quizContent"></div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: CALCULADORA -->
+<section id="calculadora">
+  <div class="section-tag" style="color:var(--verde-brilho)">Seção 06 — Interativo</div>
+  <h2 class="section-title">Calculadora de Impacto Ambiental</h2>
+  <p class="section-sub">Estime o impacto ambiental de uma propriedade rural e veja como boas práticas fazem diferença.</p>
+  <div class="calc-wrapper reveal">
+    <div class="calc-form">
+      <h3>📋 Dados da Propriedade</h3>
+      <div class="form-group">
+        <label>Área total (hectares)</label>
+        <input type="number" id="c-area" value="100" min="1" oninput="calcular()">
+      </div>
+      <div class="form-group">
+        <label>Tipo de cultura principal</label>
+        <select id="c-cultura" onchange="calcular()">
+          <option value="soja">Soja</option>
+          <option value="milho">Milho</option>
+          <option value="cana">Cana-de-açúcar</option>
+          <option value="gado">Pecuária bovina</option>
+          <option value="cafe">Café</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Usa irrigação inteligente?</label>
+        <select id="c-irrig" onchange="calcular()">
+          <option value="nao">Não</option>
+          <option value="sim">Sim</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Usa energia solar/renovável?</label>
+        <select id="c-energia" onchange="calcular()">
+          <option value="nao">Não</option>
+          <option value="sim">Sim</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Percentual de área nativa preservada (%)</label>
+        <input type="number" id="c-nativa" value="20" min="0" max="100" oninput="calcular()">
+      </div>
+    </div>
+    <div class="calc-results">
+      <div class="result-titulo">🌱 Resultado Estimado</div>
+      <div class="result-item">
+        <div class="r-label">Consumo de Água</div>
+        <div class="r-value" id="r-agua">—</div>
+        <div class="impact-bar"><div class="impact-fill" id="bar-agua"></div></div>
+      </div>
+      <div class="result-item">
+        <div class="r-label">Emissão de CO₂</div>
+        <div class="r-value" id="r-co2">—</div>
+        <div class="impact-bar"><div class="impact-fill" id="bar-co2"></div></div>
+      </div>
+      <div class="result-item">
+        <div class="r-label">Índice de Sustentabilidade</div>
+        <div class="r-value" id="r-sustent" style="color:var(--palha)">—</div>
+        <div class="impact-bar"><div class="impact-fill" id="bar-sustent" style="background:var(--verde-brilho)"></div></div>
+      </div>
+      <p id="r-dica" style="font-size:0.82rem;color:rgba(255,255,255,0.6);margin-top:1rem;line-height:1.6;"></p>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 7: CONTATO -->
+<section id="contato">
+  <div class="section-tag">Seção 07</div>
+  <h2 class="section-title">Conscientização & Contato</h2>
+  <p class="section-sub">Faça parte da mudança. Compartilhe suas dúvidas, sugestões ou vontade de aprender mais.</p>
+  <div class="contato-grid reveal">
+    <div class="contato-info">
+      <h3>Juntos por um agro mais verde 🌿</h3>
+      <p>Este site é um projeto educacional que une tecnologia, produção agrícola e preservação ambiental. Acreditamos que informação é o primeiro passo para a transformação.</p>
+      <p>Use o formulário ao lado para entrar em contato, fazer perguntas ou sugerir melhorias ao projeto.</p>
+      <div class="contato-badges">
+        <span class="badge">🌱 Projeto Educacional</span>
+        <span class="badge">💻 HTML + CSS + JS</span>
+        <span class="badge">🚜 Agronegócio</span>
+        <span class="badge">♻️ Sustentabilidade</span>
+        <span class="badge">📚 Ensino Médio</span>
+      </div>
+    </div>
+    <div class="form-contato" id="formBox">
+      <div class="fg">
+        <label>Seu nome</label>
+        <input type="text" id="f-nome" placeholder="Ex: João Silva">
+      </div>
+      <div class="fg">
+        <label>E-mail</label>
+        <input type="email" id="f-email" placeholder="joao@email.com">
+      </div>
+      <div class="fg">
+        <label>Assunto</label>
+        <select id="f-assunto">
+          <option>Dúvida sobre conteúdo</option>
+          <option>Sugestão de melhoria</option>
+          <option>Quero aprender mais</option>
+          <option>Parceria ou projeto</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Mensagem</label>
+        <textarea id="f-msg" placeholder="Escreva sua mensagem aqui..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="enviarFormulario()">Enviar Mensagem 🌱</button>
+      <div class="form-success" id="formSuccess">
+        <div class="checkmark">✅</div>
+        <strong>Mensagem enviada!</strong>
+        <p style="color:#5a7a5a;font-size:0.85rem;margin-top:0.5rem">Obrigado pelo contato. Juntos fazemos a diferença!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">AgroFuturo</div>
+      <p>Um projeto educacional sobre sustentabilidade, tecnologia e o futuro do campo brasileiro. Desenvolvido como parte de atividade escolar de planejamento web.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <a href="#producao">Produção Agrícola</a>
+      <a href="#sustentabilidade">Sustentabilidade</a>
+      <a href="#desafios">Desafios Ambientais</a>
+      <a href="#solucoes">Soluções e Futuro</a>
+    </div>
+    <div class="footer-col">
+      <h4>Interativo</h4>
+      <a href="#quiz">Quiz de Conhecimentos</a>
+      <a href="#calculadora">Calculadora de Impacto</a>
+      <a href="#contato">Fale Conosco</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 AgroFuturo — Projeto Educacional</span>
+    <span>Feito com 🌱 para o futuro do planeta</span>
+  </div>
+</footer>
+
+<script>
+// ===== NAVBAR =====
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== BARRAS ANIMADAS =====
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.barra-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.dados-box').forEach(el => barObserver.observe(el));
+
+// ===== QUIZ =====
+const perguntas = [
+  {
+    q: "Qual o percentual aproximado do PIB brasileiro que o agronegócio representa?",
+    opts: ["10%", "27%", "45%", "5%"],
+    correta: 1,
+    exp: "O agronegócio contribui com aproximadamente 27% do PIB brasileiro, sendo um dos pilares mais importantes da economia nacional."
+  },
+  {
+    q: "Qual tecnologia permite monitorar lavouras por satélite e otimizar o uso de insumos?",
+    opts: ["Hidroponia", "Agricultura de precisão", "Pesca artesanal", "Monocultura"],
+    correta: 1,
+    exp: "A agricultura de precisão usa GPS, sensores e dados de satélite para aplicar insumos exatamente onde e quando necessário, reduzindo custos e impactos ambientais."
+  },
+  {
+    q: "Quanto da água doce disponível no planeta é consumida pela agricultura?",
+    opts: ["20%", "40%", "70%", "90%"],
+    correta: 2,
+    exp: "A agricultura responde por cerca de 70% do consumo global de água doce. Por isso, tecnologias de irrigação eficiente são fundamentais para a sustentabilidade."
+  },
+  {
+    q: "O que é agricultura regenerativa?",
+    opts: [
+      "Uso intensivo de agrotóxicos para aumentar produção",
+      "Prática que restaura o solo, captura carbono e recupera biodiversidade",
+      "Produção exclusivamente em laboratório",
+      "Importação de alimentos de outros países"
+    ],
+    correta: 1,
+    exp: "A agricultura regenerativa vai além da sustentabilidade: não apenas mantém os recursos, mas os restaura ativamente. Melhora o solo, aumenta biodiversidade e captura carbono."
+  },
+  {
+    q: "Qual prática ajuda a reduzir a erosão do solo e preservar sua umidade?",
+    opts: ["Queimadas", "Plantio direto", "Aração profunda frequente", "Deixar o solo exposto"],
+    correta: 1,
+    exp: "O plantio direto mantém a cobertura do solo, reduz erosão em até 90%, conserva umidade e aumenta a matéria orgânica — melhorando produtividade e sustentabilidade."
+  },
+  {
+    q: "O que os drones agrícolas podem fazer?",
+    opts: [
+      "Apenas tirar fotos das fazendas",
+      "Monitorar pragas, pulverizar com precisão e mapear lavouras",
+      "Colher grãos automaticamente",
+      "Substituir completamente os trabalhadores rurais"
+    ],
+    correta: 1,
+    exp: "Drones agrícolas realizam monitoramento aéreo, identificam pragas e doenças precocemente, fazem pulverizações precisas e criam mapas detalhados das lavouras."
+  }
+];
+
+let quizAtual = 0;
+let quizPontos = 0;
+let quizRespondido = false;
+
+function renderQuiz() {
+  const prog = document.getElementById('quizProgress');
+  const cont = document.getElementById('quizContent');
+  
+  prog.innerHTML = perguntas.map((_, i) => {
+    let cls = 'quiz-dot';
+    if (i < quizAtual) cls += ' done';
+    else if (i === quizAtual) cls += ' active';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+
+  if (quizAtual >= perguntas.length) {
+    const pct = Math.round((quizPontos / perguntas.length) * 100);
+    const msg = pct >= 80 ? '🌟 Excelente! Você é um especialista em sustentabilidade!' :
+                pct >= 60 ? '👍 Bom trabalho! Você tem bom conhecimento sobre o tema.' :
+                pct >= 40 ? '📚 Continue estudando! Você está no caminho certo.' :
+                '🌱 Hora de revisitar o conteúdo do site!';
+    cont.innerHTML = `
+      <div class="quiz-result">
+        <div class="big-score">${quizPontos}/${perguntas.length}</div>
+        <p>${pct}% de aproveitamento</p>
+        <p style="color:#4a6a4a;margin-bottom:1.5rem">${msg}</p>
+        <button class="btn-primary" onclick="reiniciarQuiz()">Refazer Quiz →</button>
+      </div>`;
+    return;
+  }
+
+  const p = perguntas[quizAtual];
+  quizRespondido = false;
+  cont.innerHTML = `
+    <div class="quiz-score">Pergunta ${quizAtual + 1} de ${perguntas.length} · ${quizPontos} ponto(s)</div>
+    <div class="quiz-q" style="margin-top:1rem">${p.q}</div>
+    <div class="quiz-options">
+      ${p.opts.map((o, i) => `<button class="quiz-opt" onclick="responder(${i})">${o}</button>`).join('')}
+    </div>
+    <div id="qFeedback"></div>
+    <div class="quiz-nav">
+      <span></span>
+      <button class="btn-primary" id="btnProx" style="display:none" onclick="proximaQ()">
+        ${quizAtual < perguntas.length - 1 ? 'Próxima →' : 'Ver Resultado →'}
+      </button>
+    </div>`;
+}
+
+function responder(idx) {
+  if (quizRespondido) return;
+  quizRespondido = true;
+  const p = perguntas[quizAtual];
+  const opts = document.querySelectorAll('.quiz-opt');
+  const feed = document.getElementById('qFeedback');
+  const btn = document.getElementById('btnProx');
+  
+  opts.forEach(o => o.disabled = true);
+  if (idx === p.correta) {
+    opts[idx].classList.add('correct');
+    quizPontos++;
+    feed.innerHTML = `<div class="quiz-feedback correct">✅ Correto! ${p.exp}</div>`;
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[p.correta].classList.add('correct');
+    feed.innerHTML = `<div class="quiz-feedback wrong">❌ Incorreto. ${p.exp}</div>`;
+  }
+  btn.style.display = 'inline-block';
+}
+
+function proximaQ() { quizAtual++; renderQuiz(); }
+function reiniciarQuiz() { quizAtual = 0; quizPontos = 0; renderQuiz(); }
+renderQuiz();
+
+// ===== CALCULADORA =====
+const culturas = {
+  soja:  { agua: 1500, co2: 0.8, nome: 'Soja' },
+  milho: { agua: 900,  co2: 0.6, nome: 'Milho' },
+  cana:  { agua: 1800, co2: 0.4, nome: 'Cana-de-açúcar' },
+  gado:  { agua: 3000, co2: 4.2, nome: 'Pecuária bovina' },
+  cafe:  { agua: 1200, co2: 0.7, nome: 'Café' },
+};
+
+function calcular() {
+  const area   = parseFloat(document.getElementById('c-area').value) || 100;
+  const cult   = culturas[document.getElementById('c-cultura').value];
+  const irrig  = document.getElementById('c-irrig').value === 'sim';
+  const energia= document.getElementById('c-energia').value === 'sim';
+  const nativa = parseFloat(document.getElementById('c-nativa').value) || 20;
+
+  let agua = area * cult.agua * (irrig ? 0.5 : 1);
+  let co2  = area * cult.co2  * (energia ? 0.7 : 1);
+  const areaUtil = area * (1 - nativa / 100);
+  agua = areaUtil / area * agua;
+
+  let sustent = 50;
+  if (irrig)   sustent += 15;
+  if (energia) sustent += 15;
+  if (nativa >= 20) sustent += 10;
+  if (nativa >= 50) sustent += 10;
+  sustent = Math.min(100, sustent);
+
+  document.getElementById('r-agua').innerHTML = `${(agua/1000).toFixed(1)}<span class="r-unit">mil m³/ano</span>`;
+  document.getElementById('r-co2').innerHTML  = `${co2.toFixed(0)}<span class="r-unit">ton CO₂/ano</span>`;
+  document.getElementById('r-sustent').innerHTML = `${sustent}<span class="r-unit">/100</span>`;
+
+  const aPct = Math.min(100, agua / (area * 30));
+  const cPct = Math.min(100, co2  / (area * 5));
+  
+  const barAgua = document.getElementById('bar-agua');
+  barAgua.style.width = aPct + '%';
+  barAgua.className = 'impact-fill ' + (aPct > 70 ? 'high' : aPct > 40 ? 'medium' : 'low');
+
+  const barCo2 = document.getElementById('bar-co2');
+  barCo2.style.width = cPct + '%';
+  barCo2.className = 'impact-fill ' + (cPct > 70 ? 'high' : cPct > 40 ? 'medium' : 'low');
+
+  document.getElementById('bar-sustent').style.width = sustent + '%';
+
+  const dicas = [];
+  if (!irrig) dicas.push('💧 Adotar irrigação inteligente pode reduzir o consumo de água em 50%.');
+  if (!energia) dicas.push('☀️ Instalar energia solar reduz emissões e custos operacionais.');
+  if (nativa < 20) dicas.push('🌳 Manter ao menos 20% de área nativa é exigido pelo Código Florestal.');
+  document.getElementById('r-dica').textContent = dicas.length ? dicas[0] : '✅ Ótimas práticas! Esta propriedade tem bom índice de sustentabilidade.';
+}
+calcular();
+
+// ===== FORMULÁRIO =====
+function enviarFormulario() {
+  const nome = document.getElementById('f-nome').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const msg = document.getElementById('f-msg').value.trim();
+  if (!nome || !email || !msg) { alert('Por favor, preencha todos os campos.'); return; }
+  document.getElementById('formBox').querySelectorAll('input,select,textarea,button').forEach(el => el.style.display = 'none');
+  document.getElementById('formSuccess').style.display = 'block';
+}
+</script>
+</body>
+</html>
